@@ -20,29 +20,29 @@ DOWNLOAD_LIST = [
 
 # Check if the weights and file exist and download
 if not os.path.isfile('redkitchen_000.ply'):
-  print('Downloading weights and pointcloud files...')
-  for f in DOWNLOAD_LIST:
-    print(f"Downloading {f}")
-    urlretrieve(f[0] + f[1], f[1])
+    print('Downloading weights and pointcloud files...')
+    for f in DOWNLOAD_LIST:
+        print(f"Downloading {f}")
+        urlretrieve(f[0] + f[1], f[1])
 
 if __name__ == '__main__':
-  config = get_config()
-  if config.weights is None:
-    config.weights = DOWNLOAD_LIST[-1][-1]
+    config = get_config()
+    if config.weights is None:
+        config.weights = DOWNLOAD_LIST[-1][-1]
 
-  # preprocessing
-  pcd0 = o3d.io.read_point_cloud(config.pcd0)
-  pcd0.estimate_normals()
-  pcd1 = o3d.io.read_point_cloud(config.pcd1)
-  pcd1.estimate_normals()
+    # preprocessing
+    pcd0 = o3d.io.read_point_cloud(config.pcd0)
+    pcd0.estimate_normals()
+    pcd1 = o3d.io.read_point_cloud(config.pcd1)
+    pcd1.estimate_normals()
 
-  # registration
-  dgr = DeepGlobalRegistration(config)
-  T01 = dgr.register(pcd0, pcd1)
+    # registration
+    dgr = DeepGlobalRegistration(config)
+    T01 = dgr.register(pcd0, pcd1)
 
-  o3d.visualization.draw_geometries([pcd0, pcd1])
+    o3d.visualization.draw_geometries([pcd0, pcd1])
 
-  pcd0.transform(T01)
-  print(T01)
+    pcd0.transform(T01)
+    print(T01)
 
-  o3d.visualization.draw_geometries([pcd0, pcd1])
+    o3d.visualization.draw_geometries([pcd0, pcd1])
