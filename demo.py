@@ -10,13 +10,13 @@ from urllib.request import urlretrieve
 import open3d as o3d
 from core.deep_global_registration import DeepGlobalRegistration
 from config import get_config
+from utils.pointcloud import combine_point_clouds
 
 BASE_URL = "http://node2.chrischoy.org/data/"
-DOWNLOAD_LIST = [
-    (BASE_URL + "datasets/registration/", "redkitchen_000.ply"),
-    (BASE_URL + "datasets/registration/", "redkitchen_010.ply"),
-    (BASE_URL + "projects/DGR/", "ResUNetBN2C-feat32-3dmatch-v0.05.pth")
-]
+DOWNLOAD_LIST = [(BASE_URL + "datasets/registration/", "redkitchen_000.ply"),
+                 (BASE_URL + "datasets/registration/", "redkitchen_010.ply"),
+                 (BASE_URL + "projects/DGR/",
+                  "ResUNetBN2C-feat32-3dmatch-v0.05.pth")]
 
 # Check if the weights and file exist and download
 if not os.path.isfile('redkitchen_000.ply'):
@@ -40,9 +40,15 @@ if __name__ == '__main__':
     dgr = DeepGlobalRegistration(config)
     T01 = dgr.register(pcd0, pcd1)
 
-    o3d.visualization.draw_geometries([pcd0, pcd1])
+    #o3d.visualization.draw_geometries([pcd0, pcd1])
+
+    o3d.io.write_point_cloud("./out/first_combined_clouds.ply",
+                             combine_point_clouds([pcd0, pcd1]))
 
     pcd0.transform(T01)
     print(T01)
 
-    o3d.visualization.draw_geometries([pcd0, pcd1])
+    #o3d.visualization.draw_geometries([pcd0, pcd1])
+
+   o3d.io.write_point_cloud("./out/second_combined_clouds.ply",
+                             combine_point_clouds([pcd0, pcd1]))
