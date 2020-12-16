@@ -10,7 +10,7 @@ from urllib.request import urlretrieve
 import open3d as o3d
 from core.deep_global_registration import DeepGlobalRegistration
 from config import get_config
-from utils.pointcloud import combine_point_clouds
+from util.pointcloud import combine_point_clouds
 
 BASE_URL = "http://node2.chrischoy.org/data/"
 DOWNLOAD_LIST = [(BASE_URL + "datasets/registration/", "redkitchen_000.ply"),
