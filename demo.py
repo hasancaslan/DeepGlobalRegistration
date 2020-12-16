@@ -50,5 +50,5 @@ if __name__ == '__main__':
 
     #o3d.visualization.draw_geometries([pcd0, pcd1])
 
-   o3d.io.write_point_cloud("./out/second_combined_clouds.ply",
+    o3d.io.write_point_cloud("./out/second_combined_clouds.ply",
                              combine_point_clouds([pcd0, pcd1]))
