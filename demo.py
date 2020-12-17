@@ -11,6 +11,7 @@ import open3d as o3d
 from core.deep_global_registration import DeepGlobalRegistration
 from config import get_config
 from util.pointcloud import combine_point_clouds
+from util.misc import get_random_color
 
 BASE_URL = "http://node2.chrischoy.org/data/"
 DOWNLOAD_LIST = [(BASE_URL + "datasets/registration/", "redkitchen_000.ply"),
@@ -41,7 +42,8 @@ if __name__ == '__main__':
     T01 = dgr.register(pcd0, pcd1)
 
     #o3d.visualization.draw_geometries([pcd0, pcd1])
-
+    pcd0.paint_uniform_color(get_random_color())
+    pcd1.paint_uniform_color(get_random_color())
     o3d.io.write_point_cloud("./out/first_combined_clouds.ply",
                              combine_point_clouds([pcd0, pcd1]))
 
@@ -49,6 +51,7 @@ if __name__ == '__main__':
     print(T01)
 
     #o3d.visualization.draw_geometries([pcd0, pcd1])
-
+    pcd0.paint_uniform_color(get_random_color())
+    pcd1.paint_uniform_color(get_random_color())
     o3d.io.write_point_cloud("./out/second_combined_clouds.ply",
                              combine_point_clouds([pcd0, pcd1]))

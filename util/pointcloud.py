@@ -217,11 +217,3 @@ def combine_point_clouds(pcds):
     for point_id in range(len(pcds)):
         pcd_combined += pcds[point_id]
     return pcd_combined
-
-
-def get_random_color():
-    return [
-        round(random.uniform(0.0, 1.0), 1),
-        round(random.uniform(0.0, 1.0), 1),
-        round(random.uniform(0.0, 1.0), 1)
-    ]
