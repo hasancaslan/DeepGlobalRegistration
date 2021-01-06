@@ -49,7 +49,7 @@ class IndoorPairDataset(PairDataset):
                     content = f.readlines()
                 fnames = [x.strip().split() for x in content]
                 for fname in fnames:
-                    self.files.append([fname[0], fname[1]])
+                    self.files.append([fname[0])
 
     def __getitem__(self, idx):
         file0 = os.path.join(self.root, self.files[idx][0])
