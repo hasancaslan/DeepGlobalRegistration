@@ -20,9 +20,9 @@ from core.trainer import WeightedProcrustesTrainer
 
 ch = logging.StreamHandler(sys.stdout)
 logging.getLogger().setLevel(logging.INFO)
-logging.basicConfig(format='%(asctime)s %(message)s',
-                    datefmt='%m/%d %H:%M:%S',
-                    handlers=[ch])
+logging.basicConfig(
+    format="%(asctime)s %(message)s", datefmt="%m/%d %H:%M:%S", handlers=[ch]
+)
 
 torch.manual_seed(0)
 torch.cuda.manual_seed(0)
@@ -31,46 +31,50 @@ logging.basicConfig(level=logging.INFO, format="")
 
 
 def main(config, resume=False):
-  train_loader = make_data_loader(config,
-                                  config.train_phase,
-                                  config.batch_size,
-                                  num_workers=config.train_num_workers,
-                                  shuffle=True)
+    train_loader = make_data_loader(
+        config,
+        config.train_phase,
+        config.batch_size,
+        num_workers=config.train_num_workers,
+        shuffle=True,
+    )
 
-  if config.test_valid:
-    val_loader = make_data_loader(config,
-                                  config.val_phase,
-                                  config.val_batch_size,
-                                  num_workers=config.val_num_workers,
-                                  shuffle=True)
-  else:
-    val_loader = None
+    if config.test_valid:
+        val_loader = make_data_loader(
+            config,
+            config.val_phase,
+            config.val_batch_size,
+            num_workers=config.val_num_workers,
+            shuffle=True,
+        )
+    else:
+        val_loader = None
 
-  trainer = WeightedProcrustesTrainer(
-      config=config,
-      data_loader=train_loader,
-      val_data_loader=val_loader,
-  )
+    trainer = WeightedProcrustesTrainer(
+        config=config,
+        data_loader=train_loader,
+        val_data_loader=val_loader,
+    )
 
-  trainer.train()
+    trainer.train()
 
 
 if __name__ == "__main__":
-  logger = logging.getLogger()
-  config = get_config()
+    logger = logging.getLogger()
+    config = get_config()
 
-  dconfig = vars(config)
-  if config.resume_dir:
-    resume_config = json.load(open(config.resume_dir + '/config.json', 'r'))
+    dconfig = vars(config)
+    if config.resume_dir:
+        resume_config = json.load(open(config.resume_dir + "/config.json", "r"))
+        for k in dconfig:
+            if k not in ["resume_dir"] and k in resume_config:
+                dconfig[k] = resume_config[k]
+        dconfig["resume"] = resume_config["out_dir"] + "/checkpoint.pth"
+
+    logging.info("===> Configurations")
     for k in dconfig:
-      if k not in ['resume_dir'] and k in resume_config:
-        dconfig[k] = resume_config[k]
-    dconfig['resume'] = resume_config['out_dir'] + '/checkpoint.pth'
+        logging.info("    {}: {}".format(k, dconfig[k]))
 
-  logging.info('===> Configurations')
-  for k in dconfig:
-    logging.info('    {}: {}'.format(k, dconfig[k]))
-
-  # Convert to dict
-  config = edict(dconfig)
-  main(config)
+    # Convert to dict
+    config = edict(dconfig)
+    main(config)
