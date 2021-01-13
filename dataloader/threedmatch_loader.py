@@ -56,8 +56,8 @@ class IndoorPairDataset(PairDataset):
         file1 = os.path.join(self.root, self.files[idx][1])
         data0 = np.load(file0)
         data1 = np.load(file1)
-        xyz0 = data0["points"]
-        xyz1 = data1["points"]
+        xyz0 = data0["pcd"]
+        xyz1 = data1["pcd"]
         matching_search_voxel_size = self.matching_search_voxel_size
 
         if self.random_scale and random.random() < 0.95:
