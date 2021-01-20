@@ -27,6 +27,9 @@ def _hash(arr, M=None):
 
 
 def find_correct_correspondence(pos_pairs, pred_pairs, hash_seed=None, len_batch=None):
+    import pdb
+
+    pdb.set_trace()
     assert len(pos_pairs) == len(pred_pairs)
     if hash_seed is None:
         assert len(len_batch) == len(pos_pairs)
@@ -50,5 +53,4 @@ def find_correct_correspondence(pos_pairs, pred_pairs, hash_seed=None, len_batch
 
         corrects.append(np.isin(pred_keys, pos_keys, assume_unique=False))
 
-    breakpoint()
     return np.hstack(corrects)
