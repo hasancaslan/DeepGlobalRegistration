@@ -39,7 +39,7 @@ class IndoorPairDataset(PairDataset):
 
         subset_names = open(self.DATA_FILES[phase]).read().split()
         for name in subset_names:
-            fname = name + ".txt"
+            fname = name + "*%.2f.txt" % self.OVERLAP_RATIO
             fnames_txt = glob.glob(root + "/" + fname)
             assert (
                 len(fnames_txt) > 0
