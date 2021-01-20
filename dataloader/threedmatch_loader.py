@@ -138,7 +138,7 @@ class IndoorPairDataset(PairDataset):
 
 
 class ThreeDMatchPairDataset03(IndoorPairDataset):
-    OVERLAP_RATIO = None
+    OVERLAP_RATIO = 0.3
     DATA_FILES = {
         "train": "./dataloader/split/train_3dmatch.txt",
         "val": "./dataloader/split/val_3dmatch.txt",
